@@ -35,8 +35,11 @@ $$
 In standard software implementations, the exact gradient magnitude ($G$) is calculated using the Euclidean distance:
 $$G = \sqrt{G_x^2 + G_y^2}$$
 
-However, square root and squaring operations are computationally expensive in hardware. To optimize for silicon area and throughput on the Zynq-7000 SoC, this implementation utilizes the **Absolute Magnitude Approximation**:
+However, square root and squaring operations are computationally expensive in hardware. To optimize for silicon area and throughput on the Zynq-7000 SoC, this implementation utilizes the 
+
+**Absolute Magnitude Approximation**:
 $$G \approx |G_x| + |G_y|$$
+
 This approximation allows the math core to rely solely on additions and absolute value logic, significantly reducing latency and hardware resource consumption.
 
 ## Hardware Implementation Details
