@@ -1,37 +1,40 @@
-# FPGA Sobel Edge Detection Accelerator
+# Sobel Edge Detection FPGA Accelerator
 
-## Project Overview
-This project implements a hardware-optimized Sobel edge detection accelerator using Verilog HDL, deployed on a PYNQ-Z2 SoC platform (Zynq-7000). The primary objective is to offload computationally intensive 2D spatial filtering from the ARM Cortex-A9 processor to the FPGA programmable logic. 
+This project implements a hardware accelerator for Sobel edge detection using Verilog HDL. The design is deployed on a PYNQ-Z2 board, where a custom IP core offloads the pixel-intensity calculations from the processor to the FPGA fabric to increase processing speed.
 
-By utilizing a custom AXI-Stream hardware architecture with specialized line-buffers and signed 11-bit arithmetic, the design achieves high-throughput, real-time image processing, demonstrating a **~10x speedup** over embedded software execution.
+## Project Description
+The system consists of a custom-designed Verilog module that processes 256x256 grayscale images. It uses an AXI-Stream interface to receive pixels, line buffers to store image rows for 3x3 convolution, and signed arithmetic to calculate edge gradients.
 
-![System Block Design](docs/system_block_design.png)
+* **Hardware IP:** Written in Verilog; includes line buffers, a 3x3 sliding window, and a math core for Gx and Gy calculations.
+* **DMA Integration:** An AXI DMA engine moves image data from memory to the IP and back.
+* **Software Interface:** A Jupyter Notebook is used to program the FPGA, manage data transfers, and compare hardware results with a software baseline.
 
-## Key Specifications & Performance
-The custom RTL was synthesized in Vivado 2024.1. By utilizing efficient bit-shifting techniques, the synthesizer inferred **zero DSP slices**, resulting in a highly lightweight IP block.
-* **Target Frequency:** 100 MHz (Timing Met: WNS +1.182 ns)
-* **LUT Utilization:** 2,758 (5.18%)
-* **Register (FF) Utilization:** 3,571 (3.36%)
-* **BRAM Utilization:** 2.50 Tiles (1.79%)
-* **DSPs Used:** 0
-* **Latency Speedup:** ~9.95x faster than ARM CPU software execution.
+## Technical Specifications
+The project was implemented using Vivado 2024.1 targeting the PYNQ-Z2 (Zynq-7000).
 
-## Documentation Hub
-For a detailed breakdown of the engineering process, architecture, and verification, please explore the documentation modules below:
+### Device Utilization
+| Resource | Used | Available | Utilization (%) |
+|:---|:---|:---|:---|
+| LUT | 2,758 | 17,600 | 8.50% |
+| FF | 3,571 | 35,200 | 5.79% |
+| BRAM | 2.50 | 60 | 2.14% |
+| DSP | 0 | 80 | 0.00% |
 
-1. [**Theory of Operation**](docs/1_Theory_of_Operation.md)
-   * The mathematics behind the Sobel operator, convolution kernels ($G_x$ and $G_y$), and absolute magnitude approximation.
-2. [**Hardware Architecture (RTL)**](docs/2_Hardware_Architecture.md)
-   * Deep dive into the Read-Before-Write Line Buffers, 3x3 Sliding Window mechanics, and AXI-Stream handshaking.
-3. [**Verification & Simulation**](docs/3_Verification_and_Simulation.md)
-   * Testbench methodologies, solving pipeline latency, and waveform proofs for 10x10, 256x256, and mathematical stress tests.
-4. [**System Integration & PYNQ Deployment**](docs/4_System_Integration_and_Deployment.md)
-   * Vivado Block Design, AXI DMA configuration (solving TLAST and Buffer constraints), and Jupyter Notebook Python execution.
+### Latency Results
+* **Software (OpenCV):** 16.295 ms
+* **Hardware (FPGA):** 1.637 ms
+* **Measured Speedup:** ~10x
 
 ## Repository Structure
-* `/rtl/` - Source Verilog code for the custom Sobel IP.
-* `/sim/` - Testbenches (`tb_sobel_10x10.v`, `tb_sobel_file.v`, `tb_sobel_ramp.v`) and output data.
-* `/scripts/` - Python pre-processing and post-processing scripts for file-based simulation.
-* `/hardware_handoff/` - The compiled `.bit` and `.hwh` files for PYNQ deployment.
-* `/notebooks/` - The Jupyter Notebook used for hardware execution and benchmarking.
-* `/docs/` - System diagrams, waveform screenshots, and detailed markdown documentation.
+* **/rtl/**: Source Verilog files for the Sobel IP.
+* **/sim/**: Testbenches and simulation data files.
+* **/hardware_handoff/**: The compiled .bit and .hwh files.
+* **/notebooks/**: Jupyter Notebook for board testing and benchmarking.
+* **/docs/**: Detailed documentation files for each part of the project.
+
+## Documentation Hub
+The project details are divided into the following files:
+1. [**Theory and Kernels**](docs/1_Theory_of_Operation.md)
+2. [**Hardware RTL Design**](docs/2_Hardware_Architecture.md)
+3. [**Vivado System Setup**](docs/3_System_Integration.md)
+4. [**Verification and PYNQ Testing**](docs/4_Verification_Deployment.md)
