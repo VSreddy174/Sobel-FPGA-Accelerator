@@ -41,8 +41,36 @@ Performance was evaluated by comparing the custom FPGA IP against the ARM Cortex
 * **/notebooks/** : Jupyter Notebook for board deployment and benchmarking.
 * **/docs/** : Detailed technical reports on theory, architecture, and integration.
 
-## Documentation Modules
-1. [**Theory and Kernels**](docs/1_Theory_of_Operation.md)
-2. [**Hardware RTL Design**](docs/2_Hardware_Architecture.md)
-3. [**Vivado System Setup**](docs/3_System_Integration.md)
-4. [**Verification and PYNQ Testing**](docs/4_Verification_Deployment.md)
+## Documentation Sections
+
+The project documentation is divided into the following technical modules:
+
+### 1. [Theory](./docs/1_Theory.md)
+* **Mathematical Definition:** Analysis of the horizontal (Gx) and vertical (Gy) convolution kernels.
+* **Magnitude Approximation:** Hardware-optimized |Gx| + |Gy| calculation to avoid expensive square root operations.
+* **Arithmetic Scaling:** Implementation of signed 11-bit logic to prevent integer overflow during subtractions.
+
+### 2. [RTL Design](./docs/2_RTL_Design.md)
+* **Line Buffer Architecture:** Detailed "Read-Before-Write" logic using dual RAM arrays to cache image rows.
+* **3x3 Sliding Window:** Shift-register grid implementation for real-time spatial neighborhood generation.
+* **Pipeline Management:** Use of `buff_valid` and `calc_valid` signals to synchronize data flow with internal hardware latency.
+
+### 3. [Simulation and Waveform Analysis](./docs/3_Simulation.md)
+* **Functional Verification:** Waveform results from the 10x10 edge test and 256x256 ramp stress simulation.
+* **Handshake Timing:** Analysis of AXI-Stream `tvalid` and `tready` signals under streaming conditions.
+* **TLAST Accuracy:** Verification of the 18-bit counter-driven End-of-Frame signal.
+
+### 4. [Vivado Block Design](./docs/4_Block_Design.md)
+* **SoC Integration:** Connectivity between the Zynq-7000 Processing System and the custom Sobel IP.
+* **DMA Configuration:** Settings for Direct Register Mode, 8-bit stream width, and 23-bit buffer registers.
+* **High-Performance Path:** Utilization of the HP0 port for direct memory access to DDR RAM.
+
+### 5. [Pynq Jupyter](./docs/5_Pynq_Deployment.md)
+* **Overlay Management:** Dynamic FPGA programming using the `pynq.Overlay` library.
+* **Memory Allocation:** Creating physically contiguous buffers via `pynq.allocate`.
+* **Benchmark Methodology:** Comparison of hardware execution time (1.637 ms) against software baseline (~16.295 ms).
+
+### 6. [Debugging Issues](./docs/6_Debugging.md)
+* **System Hangs:** Resolution of DMA lockups caused by Scatter-Gather protocol mismatches.
+* **Handshake Synchronization:** Fixing TLAST misalignment using absolute pixel counting.
+* **Register Overflow:** Resolving the 16-bit DMA buffer length limitation for 256x256 images.
