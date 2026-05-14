@@ -4,7 +4,7 @@ The Sobel operator is a discrete differentiation algorithm widely used in image 
 
 ## Convolution Kernels
 
-The algorithm utilizes two 3x3 convolution kernels. These kernels are convolved with the original image to calculate approximations of the derivatives—one for horizontal changes (Gx) and one for vertical (Gy).
+The algorithm utilizes two 3x3 convolution kernels. These kernels are convolved with the original image to calculate approximations of the derivatives, one for horizontal changes (Gx) and one for vertical (Gy).
 
 The kernels are defined as:
 
@@ -38,7 +38,7 @@ $$
 
 To calculate the final edge magnitude for a target pixel, the kernels are convolved with a 3x3 pixel neighborhood (A). 
 
-In standard software implementations, the exact magnitude is often calculated using Euclidean distance: $sqrt(Gx^2 + Gy^2)$. However, square roots are computationally expensive in FPGA hardware. To optimize for silicon area and throughput, this hardware accelerator utilizes the **Absolute Magnitude Approximation**:
+In standard software implementations, the exact magnitude is often calculated using Euclidean distance: $\sqrt{Gx^2 + Gy^2}$. However, square roots are computationally expensive in FPGA hardware. To optimize for silicon area and throughput, this hardware accelerator utilizes the **Absolute Magnitude Approximation**:
 
 **Magnitude ≈ |Gx| + |Gy|**
 
