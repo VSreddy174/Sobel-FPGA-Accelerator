@@ -38,7 +38,7 @@ $$
 
 To calculate the final edge magnitude for a target pixel, the kernels are convolved with a 3x3 pixel neighborhood (A). 
 
-In standard software implementations, the exact magnitude is often calculated using Euclidean distance: sqrt(Gx^2 + Gy^2). However, square roots are computationally expensive in FPGA hardware. To optimize for silicon area and throughput, this hardware accelerator utilizes the **Absolute Magnitude Approximation**:
+In standard software implementations, the exact magnitude is often calculated using Euclidean distance: $sqrt(Gx^2 + Gy^2)$. However, square roots are computationally expensive in FPGA hardware. To optimize for silicon area and throughput, this hardware accelerator utilizes the **Absolute Magnitude Approximation**:
 
 **Magnitude ≈ |Gx| + |Gy|**
 
