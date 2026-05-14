@@ -11,16 +11,20 @@ The kernels are defined as:
 **Horizontal Kernel (Gx)**
 This kernel detects vertical edges by measuring the horizontal gradient.
 
+'''
 -1   0  +1
 -2   0  +2
 -1   0  +1
+'''
 
 **Vertical Kernel (Gy)**
 This kernel detects horizontal edges by measuring the vertical gradient.
 
+'''
 +1  +2  +1
  0   0   0
 -1  -2  -1
+'''
 
 ## Gradient Magnitude Calculation
 
