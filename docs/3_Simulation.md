@@ -14,7 +14,7 @@ This was the primary functional test used to verify the mathematical accuracy of
 ## 2. Testbench 2: File-Based Image Verification (`tb_sobel_file.v`)
 This testbench validated the IP's performance using real-world data at the target resolution of 256x256.
 
-* **Methodology:** Used standard Verilog file I/O tasks (`$readmemh`) to load a grayscale image converted to hexadecimal. The output was written back to a text file for reconstruction in Python.
+* **Methodology:** Used standard Verilog file I/O tasks to load a grayscale image converted to hexadecimal. The output was written back to a text file for reconstruction in Python.
 * **Findings:**
     * **Latency:** Confirmed a latency of exactly two full rows plus the pipeline stages before the first valid pixel is emitted.
     * **Handshaking:** Verified that the AXI-Stream interface correctly handles `tvalid` and `tready` signals, ensuring no pixels are dropped during the transfer.
