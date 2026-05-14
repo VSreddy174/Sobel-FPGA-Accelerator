@@ -3,7 +3,7 @@
 The Sobel operator is a discrete differentiation algorithm used to compute an approximation of the gradient of an image intensity function. In this project, it is used to detect edges by identifying areas of high spatial frequency.
 
 ## Convolution Kernels
-The algorithm utilizes two 3x3 convolution kernels to calculate approximations of the derivatives—one for horizontal changes ($G_x$) and one for vertical changes ($G_y$).
+The algorithm utilizes two 3x3 convolution kernels to calculate approximations of the derivatives, one for horizontal changes ($G_x$) and one for vertical changes ($G_y$).
 
 **Horizontal Kernel ($G_x$)**
 This kernel is designed to detect vertical edges by measuring the horizontal gradient.
